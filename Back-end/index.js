@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const app = express()
 const user = require('./src/Model/schema');
+const authroute = require('./src/MIDDLEWARE/auth')
 const { FindCursor } = require('mongodb');
 require('dotenv').config({path:'./src/Config/.env'})
 
@@ -12,7 +13,7 @@ const url = process.env.mongoDB;
 app.use(bodyParser.json())
 app.use(cors())
 
-app.get('/user',async(req,res)=>{
+app.get('/user',authroute,async(req,res)=>{
     try{
         const users = await user.find();
         res.json(users);
